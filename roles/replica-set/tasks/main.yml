@@ -1,0 +1,18 @@
+- name: Add necessary files
+  template: 
+    src: "{{item}}.js.j2"
+    dest: "./{{item}}.js"
+  loop:
+    - initReplicaSet
+
+- name: Add Replicaset
+  shell: mongo ./initReplicaSet.js
+  when: inventory_hostname == "mongodb0"
+
+- name: Remove files
+  file:
+    path: "./{{item}}.js"
+    state: absent
+  when: inventory_hostname == "mongodb0"
+  loop:
+    - initReplicaSet

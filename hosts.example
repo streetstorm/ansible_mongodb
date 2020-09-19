@@ -1,0 +1,12 @@
+[primary]
+mongodb0 ansible_host=
+
+[secondaries]
+mongodb1 ansible_host=
+mongodb2 ansible_host=
+
+[mongodb:children]
+primary
+secondaries
+
+

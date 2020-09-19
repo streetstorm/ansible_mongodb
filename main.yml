@@ -1,0 +1,9 @@
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  vars_files: ./group_vars/mongo.yml
+  roles:
+    - ufw
+    - prepare-host
+    - mongodb
+    - replica-set

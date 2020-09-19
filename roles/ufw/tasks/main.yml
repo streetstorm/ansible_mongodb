@@ -1,0 +1,22 @@
+- name: Update apt-get repo and cache
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+- name: install ufw
+  apt: name=ufw
+
+- name: Allow ip
+  ufw:
+    rule: "{{item.rule | default('allow')}}"
+    src: "{{item.from_ip | default('127.0.0.1')}}"
+    port: "{{item.port | default('')}}"
+  with_items:
+    - "{{ufw_rules}}"
+
+- name: activate ufw
+  ufw:
+    state: enabled
+  register: result
+
+#- name: reboot
+#  reboot:
+#  when: result is changed

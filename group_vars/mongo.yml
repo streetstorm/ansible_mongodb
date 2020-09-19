@@ -1,0 +1,12 @@
+mongodb_replicaset_name: rs0
+mongodb_db_path: "/data/db/"
+priority: 1
+mongodb_net_bindip2: "{{ ansible_eth0.ipv4.address }}"
+
+ufw_rules:
+  - { port: '22', rule: allow, from_ip: 'ip', comment: 'Allow to ssh from our ip1' }
+  - { port: '22', rule: allow, from_ip: 'ip', comment: 'Allow to ssh from our ip2' }
+  - { port: 27017, rule: allow, from_ip: "{{ hostvars[groups['mongodb'][0]].ansible_eth0.ipv4.address }}", comment: 'Allow to mongo from mongo1' }
+  - { port: 27017, rule: allow, from_ip: "{{ hostvars[groups['mongodb'][1]].ansible_eth0.ipv4.address }}", comment: 'Allow to mongo from mongo2' }
+  - { port: 27017, rule: allow, from_ip: "{{ hostvars[groups['mongodb'][2]].ansible_eth0.ipv4.address }}", comment: 'Allow to mongo from mongo3' }
+  - { from_ip: '127.0.0.1/8', comment: 'Allow localhost' }
